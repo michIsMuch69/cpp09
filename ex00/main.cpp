@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:59 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/26 15:37:00 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:08:07 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,22 @@
 void extractDate(const std::string &data_line)
 {
     // check line...
+    // inst. object date then --> add value to it .
     std::string date_part, year_part, month_part, day_part;
 
     date_part = data_line.substr(0, 10);
 
+    if (date_part.size() != 10)
+    {
+        std::ostringstream oss;
+        oss << "Invalid date entry: " << date_part;
+        throw(std::logic_error(oss.str()));
+    }
     year_part = date_part.substr(0, 4);
 
-    // month_part = date_part.substr(5, 2);
+    month_part = date_part.substr(5, 2);
 
-    // day_part = date_part.substr(8, 2);
+    day_part = date_part.substr(8, 2);
 
     // if (date_part.find()
 
@@ -47,13 +54,13 @@ void extractDate(const std::string &data_line)
                 <<  year_part
                 << std::endl;
     
-    // std::cout   << "extracted month_part : " 
-    //             <<  month_part
-    //             << std::endl;
+    std::cout   << "extracted month_part : " 
+                <<  month_part
+                << std::endl;
     
-    // std::cout   << "extracted day_part : " 
-    //             <<  day_part
-    //             << std::endl;
+    std::cout   << "extracted day_part : " 
+                <<  day_part
+                << std::endl;
     // Date *date = new Date();
 
     
@@ -80,8 +87,10 @@ void readInputFile(std::string &file_name)
     while (std::getline(input_file, src_line))
     {
         if (!src_line.empty() && src_line.compare("date | value"))
+        {
+            std::cout << "\n======= LINE ANALYSED: " << src_line << " ======= \n" << std::endl;
             extractDate(src_line);            
-       std::cout << src_line << std::endl;
+        }
     }
 }
 
