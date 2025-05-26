@@ -6,12 +6,14 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:56 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/21 14:55:22 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:52:24 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOIN_EXCHANGE_HPP
 #define BITCOIN_EXCHANGE_HPP
+
+
 
 class Date
 {
@@ -20,11 +22,25 @@ class Date
         int _year;
         int _month;
         int _day;
+
+    public :
+    
+        enum DateField
+        {
+            YEAR,
+            MONTH,
+            DAY
+        };
+        Date();
+        ~Date();
+        Date(const Date &);
+        Date& operator=(const Date &);
+        void setDateField(const int &, DateField);
 };
 
-class BitcoinExchange
-{
+// class BitcoinExchange
+// {
     
-};
+// };
 
 #endif
