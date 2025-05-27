@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:59 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/26 16:08:07 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:37:32 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,85 +17,11 @@
 #include <string>
 #include <cstring>
 
-// void checkLine(const std::string &line)
-// {
-    
-// }
-
-void extractDate(const std::string &data_line)
-{
-    // check line...
-    // inst. object date then --> add value to it .
-    std::string date_part, year_part, month_part, day_part;
-
-    date_part = data_line.substr(0, 10);
-
-    if (date_part.size() != 10)
-    {
-        std::ostringstream oss;
-        oss << "Invalid date entry: " << date_part;
-        throw(std::logic_error(oss.str()));
-    }
-    year_part = date_part.substr(0, 4);
-
-    month_part = date_part.substr(5, 2);
-
-    day_part = date_part.substr(8, 2);
-
-    // if (date_part.find()
-
-    //if (substr 0-4 pas de - ou 5 a 7 pareil ou le reste)
-
-    std::cout   << "extracted date_part : " 
-                <<  date_part
-                << std::endl;
-
-    std::cout   << "extracted year_part : " 
-                <<  year_part
-                << std::endl;
-    
-    std::cout   << "extracted month_part : " 
-                <<  month_part
-                << std::endl;
-    
-    std::cout   << "extracted day_part : " 
-                <<  day_part
-                << std::endl;
-    // Date *date = new Date();
-
-    
-
-    
-
-    
-}
-
-void readInputFile(std::string &file_name)
-{
-    file_name.insert(0, "./");
-    
-    std::ifstream input_file(file_name.c_str(), std::ifstream::in);
-    if (!input_file)
-    {
-        std::ostringstream oss;
-        oss << "File "
-            << file_name
-            << "Does not exists";
-        throw(std::logic_error(oss.str()));
-    }
-    std::string src_line;
-    while (std::getline(input_file, src_line))
-    {
-        if (!src_line.empty() && src_line.compare("date | value"))
-        {
-            std::cout << "\n======= LINE ANALYSED: " << src_line << " ======= \n" << std::endl;
-            extractDate(src_line);            
-        }
-    }
-}
 
 int main(int argc, char **argv)
 {
+    BitcoinExchange bitcoinExchange;
+    
     if (argc != 2)
     {
         std::cout << "Usage: <./first_ex> <input file>" << std::endl;
@@ -104,7 +30,7 @@ int main(int argc, char **argv)
     std::string file_name = argv[1];
     try 
     {
-        readInputFile(file_name);
+        bitcoinExchange.getInputData(file_name);
     }
     catch (std::exception &e)
     {
