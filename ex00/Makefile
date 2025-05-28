@@ -6,7 +6,7 @@
 #    By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 08:52:31 by jedusser          #+#    #+#              #
-#    Updated: 2025/05/26 13:30:18 by jedusser         ###   ########.fr        #
+#    Updated: 2025/05/28 10:43:20 by jedusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ OBJ_DIR = obj
 NAME = first-ex
 
 SRCS = main.cpp \
-		BitcoinExchange.cpp
+		BitcoinExchange.cpp \
+		Date.cpp
 
 OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
 DEPS = $(OBJS:.o=.d)
