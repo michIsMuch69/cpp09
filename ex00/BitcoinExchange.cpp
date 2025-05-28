@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:54 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/28 14:28:42 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:56:18 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ BitcoinExchange & BitcoinExchange::operator=(const BitcoinExchange &other)
 	}
 	return (*this);
 }
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) : _current_values(other._current_values) {};
 
 void BitcoinExchange::getInputData(std::string &file_name)
 {

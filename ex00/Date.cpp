@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:40:52 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/28 14:25:47 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:46:06 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,13 @@ void Date::setDateField(const std::string &value, DateField dateField)
 	{
 		case YEAR:
 			iss >> this->_year;
+			break;
 		case MONTH:
 			iss >> this->_month;
+			break;
 		case DAY:
 			iss >> this->_day;
+			break;
 	}
 }
 const int& Date::getYear() const { return (this->_year); }
@@ -74,7 +77,7 @@ bool Date::operator<(const Date& other) const
 
 bool Date::operator==(const Date& other) const
 {
-	return (_year == other._year && _month == other._month && _day == other._month);
+	return (_year == other._year && _month == other._month && _day == other._day);
 }
 
 std::ostream& operator<<(std::ostream& o, const Date& date)

@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:59 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/28 14:39:52 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:54:00 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,10 @@ int main(int argc, char **argv)
         bitcoinExchange.getExchangeData(data_file_name);
         bitcoinExchange.printMapContent(bitcoinExchange.getCurrentValue());
         bitcoinExchange.getInputData(input_file_name);
-        
-
     }
     catch (std::exception &e)
     {
         std::cerr << RED << e.what() << RESET << '\n';
     }
-
     return (0);
 }
