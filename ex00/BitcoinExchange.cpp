@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:54 by jedusser          #+#    #+#             */
-/*   Updated: 2025/06/02 13:50:37 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:55:05 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void BitcoinExchange::displayConversion(const Date &date, float amount, float ra
 
 void BitcoinExchange::processInputFile(const std::string &fileName)
 {
-    const std::string fullPath = (fileName.find("./") == 0) ? fileName : "./" + fileName;
+    const std::string fullPath = fileName ;
     
-    std::ifstream inputFile(fullPath.c_str());
+    std::ifstream inputFile(fileName.c_str());
     if (!inputFile.is_open())
         throw (std::invalid_argument("Error: could not open file: " + fileName));
 

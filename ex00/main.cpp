@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:59 by jedusser          #+#    #+#             */
-/*   Updated: 2025/06/02 13:37:43 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:54:24 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     }
     
     const std::string inputFileName = argv[1];
-    const std::string dataFileName = "./data.csv";
+    const std::string dataFileName = "data.csv";
     
     BitcoinExchange bitcoinExchange;
     
