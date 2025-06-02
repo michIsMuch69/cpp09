@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:54 by jedusser          #+#    #+#             */
-/*   Updated: 2025/06/02 13:55:05 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:14:47 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@
 #include <fstream>
 #include <sstream>
 
-//========================== BITCOIN_EXCHANGE CLASS =========================//
+
+
+/*============================================================================*/
+                                /*### CONSTRUCTORS ###*/
+/*============================================================================*/
 
 BitcoinExchange::BitcoinExchange() {}
 
@@ -35,28 +39,11 @@ BitcoinExchange & BitcoinExchange::operator=(const BitcoinExchange &other)
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) 
     : _exchangeRates(other._exchangeRates) {}
 
-float BitcoinExchange::parseInputValue(const std::string &dataLine) const
-{
-    const std::string valueStr = dataLine.substr(12);
-    
-    float inputValue;
-    std::istringstream iss(valueStr);
-    iss >> inputValue;
-    
-    if (iss.fail())
-        throw (std::invalid_argument("Error: invalid number format."));
-    if (inputValue < 0)
-        throw (std::invalid_argument("Error: not a positive number."));
-    if (inputValue > 1000)
-        throw (std::invalid_argument("Error: too large a number."));
-        
-    return (inputValue);
-}
 
-void BitcoinExchange::displayConversion(const Date &date, float amount, float rate) const
-{
-    std::cout << date << " => " << amount << " = " << amount * rate << std::endl;
-}
+/*===============================================================================================*/
+                                /*### MAIN FUNCTIONS ###*/
+/*===============================================================================================*/
+
 
 void BitcoinExchange::processInputFile(const std::string &fileName)
 {
@@ -90,6 +77,38 @@ void BitcoinExchange::processInputFile(const std::string &fileName)
     inputFile.close();
 }
 
+void BitcoinExchange::loadExchangeRates(const std::string &fileName)
+{
+    std::ifstream dataFile(fileName.c_str());
+    if (!dataFile.is_open())
+    {
+        std::ostringstream errorMsg;
+        errorMsg << "Error: could not open file: " << fileName;
+        throw std::invalid_argument(errorMsg.str());
+    }
+    
+    std::string line;
+    
+    while (std::getline(dataFile, line))
+    {
+        if (line.empty())
+            continue;
+        if (line == "date,exchange_rate")
+            continue;
+        try
+        {
+            processExchangeRateLine(line);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << RED << e.what() << RESET << '\n';
+        }
+    }
+    if (_exchangeRates.empty())
+        throw (std::runtime_error("Error: no valid exchange rates found in file"));
+    dataFile.close();
+}
+
 float BitcoinExchange::findClosestRate(const Date &inputDate) const
 {
     std::map<Date, float>::const_iterator it = _exchangeRates.find(inputDate);
@@ -105,6 +124,10 @@ float BitcoinExchange::findClosestRate(const Date &inputDate) const
     --upper;
     return (upper->second);
 }
+
+/*===============================================================================================*/
+                                /*### INPUT FILE PROCESSING ###*/
+/*===============================================================================================*/
 
 void BitcoinExchange::validateInputLine(const std::string &dataLine, Date &inputDate) const
 {
@@ -158,37 +181,27 @@ void BitcoinExchange::validateDateField(const std::string &value, DateFieldInput
     }
 }
 
-void BitcoinExchange::loadExchangeRates(const std::string &fileName)
+float BitcoinExchange::parseInputValue(const std::string &dataLine) const
 {
-    std::ifstream dataFile(fileName.c_str());
-    if (!dataFile.is_open())
-    {
-        std::ostringstream errorMsg;
-        errorMsg << "Error: could not open file: " << fileName;
-        throw std::invalid_argument(errorMsg.str());
-    }
+    const std::string valueStr = dataLine.substr(12);
     
-    std::string line;
+    float inputValue;
+    std::istringstream iss(valueStr);
+    iss >> inputValue;
     
-    while (std::getline(dataFile, line))
-    {
-        if (line.empty())
-            continue;
-        if (line == "date,exchange_rate")
-            continue;
-        try
-        {
-            processExchangeRateLine(line);
-        }
-        catch(const std::exception& e)
-        {
-            std::cerr << RED << e.what() << RESET << '\n';
-        }
-    }
-    if (_exchangeRates.empty())
-        throw (std::runtime_error("Error: no valid exchange rates found in file"));
-    dataFile.close();
+    if (iss.fail())
+        throw (std::invalid_argument("Error: invalid number format."));
+    if (inputValue < 0)
+        throw (std::invalid_argument("Error: not a positive number."));
+    if (inputValue > 1000)
+        throw (std::invalid_argument("Error: too large a number."));
+        
+    return (inputValue);
 }
+
+/*===============================================================================================*/
+                                /*### EXCHANGE FILE PROCESSING ###*/
+/*===============================================================================================*/
 
 void BitcoinExchange::processExchangeRateLine(const std::string &dataLine)
 {
@@ -238,6 +251,19 @@ float BitcoinExchange::extractExchangeValue(const std::string &dataLine) const
         
     return (value);
 }
+
+/*===============================================================================================*/
+                                     /*### OUTPUT ###*/
+/*===============================================================================================*/
+
+void BitcoinExchange::displayConversion(const Date &date, float amount, float rate) const
+{
+    std::cout << date << " => " << amount << " = " << amount * rate << std::endl;
+}
+
+/*===============================================================================================*/
+                                    /*### UTILITY ###*/
+/*===============================================================================================*/
 
 const std::map<Date, float>& BitcoinExchange::getExchangeRates() const
 {
