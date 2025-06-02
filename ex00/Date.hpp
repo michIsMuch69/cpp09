@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:39:00 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/28 14:23:34 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:37:30 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,42 @@
 #define DATE_HPP
 
 #include <string>
+#include <ostream>
 
 class Date
 {
-    private :
-    
-        int _year;
-        int _month;
-        int _day;
+public:
+    enum DateField
+    {
+        YEAR,
+        MONTH,
+        DAY
+    };
 
-    public :
-    
-        enum DateField
-        {
-            YEAR,
-            MONTH,
-            DAY
-        };
-        Date();
-        // Date(std::string& year, std::string& month, std::string& day);
-        ~Date();
-        Date(const Date &);
-        Date& operator=(const Date &);
-        bool operator<(const Date&) const ;
-        bool operator==(const Date&) const ;
+    Date();
+    ~Date();
+    Date(const Date &);
+    Date& operator=(const Date &);
 
-        void setDateField(const std::string &, DateField);
-        const int& getYear() const;
-        const int& getMonth() const;
-        const int& getDay() const;
+    void setDateField(const std::string &value, DateField dateField);
+    
+    const int& getYear() const;
+    const int& getMonth() const;
+    const int& getDay() const;
+    
+    bool operator<(const Date& other) const;
+    bool operator==(const Date& other) const;
+
+private:
+    int _year;
+    int _month;
+    int _day;
+    
+    int getMaxDaysInMonth() const;
+    bool isLeapYear() const;
 };
+
+std::ostream& operator<<(std::ostream& o, const Date& date);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:56 by jedusser          #+#    #+#             */
-/*   Updated: 2025/05/28 14:56:34 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:35:51 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,41 @@ enum DateFieldInput
     DATE,
     YEAR,
     MONTH,
-    DAY,
-    TO_CONVERT
+    DAY
 };
 
 class BitcoinExchange
 {
-    private :
-    
-            std::multimap<Date, float> _to_convert;
-            std::map<Date, float> _current_values;
-    
-        public :
+    private:
+        std::map<Date, float> _exchangeRates;
 
-            BitcoinExchange();
-            ~BitcoinExchange();
-            BitcoinExchange(const BitcoinExchange &);
-            BitcoinExchange& operator=(const BitcoinExchange &);
-            
-            void getInputData(std::string &file_name);
-            void checkInputData(const std::string &data_line);
-            void checkInput(const std::string &value, DateFieldInput dateField);
+        // Input file processing
+        void validateInputLine(const std::string &dataLine, Date &date) const;
+        void validateDateField(const std::string &value, DateFieldInput dateField) const;
+        float parseInputValue(const std::string &dataLine) const;
+        float findClosestRate(const Date &inputDate) const;
+        
+        // Exchange rate file processing
+        void processExchangeRateLine(const std::string &dataLine);
+        void extractExchangeDate(Date &date, const std::string &dataLine) const;
+        float extractExchangeValue(const std::string &dataLine) const;
 
-            void getExchangeData(std::string &file_name);
-            void storeExchangeData(const std::string &data_line);
-            void extractExchangeDate(Date &date, const std::string &data_line);
-            void extractExchangeValue(float &nbBitcoins, const std::string &data_line);
+        // Output
+        void displayConversion(const Date &date, float amount, float rate) const;
 
-            const std::map<Date, float>& getCurrentValue() const;
-            void printMapContent(const std::map<Date, float> &) const;
+    public:
+        BitcoinExchange();
+        ~BitcoinExchange();
+        BitcoinExchange(const BitcoinExchange &);
+        BitcoinExchange& operator=(const BitcoinExchange &);
+        
+        // Main functions
+        void loadExchangeRates(const std::string &fileName);
+        void processInputFile(const std::string &fileName);
+        
+        // Utility
+        const std::map<Date, float>& getExchangeRates() const;
+        void printExchangeRates() const;
 };
 
 std::ostream& operator<<(std::ostream &o, const Date& date);

@@ -6,7 +6,7 @@
 #    By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 08:52:31 by jedusser          #+#    #+#              #
-#    Updated: 2025/05/28 10:43:20 by jedusser         ###   ########.fr        #
+#    Updated: 2025/06/02 11:58:02 by jedusser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -Werror -g3 -std=c++98 -MMD -MP
 SRC_DIR = .
 OBJ_DIR = obj
 
-NAME = first-ex
+NAME = btc
 
 SRCS = main.cpp \
 		BitcoinExchange.cpp \
