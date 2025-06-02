@@ -6,7 +6,7 @@
 /*   By: jedusser <jedusser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:50:54 by jedusser          #+#    #+#             */
-/*   Updated: 2025/06/02 13:44:57 by jedusser         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:50:37 by jedusser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,27 +67,19 @@ void BitcoinExchange::processInputFile(const std::string &fileName)
         throw (std::invalid_argument("Error: could not open file: " + fileName));
 
     std::string line;
-    bool isFirstLine = true;
     
     while (std::getline(inputFile >> std::ws, line))
     {
         if (line.empty())
             continue;
-            
-        if (isFirstLine && line == "date | value")
-        {
-            isFirstLine = false;
+        if (line == "date | value")
             continue;
-        }
-        
         try
         {
             Date inputDate;
             validateInputLine(line, inputDate);
-            
             const float value = parseInputValue(line);
             const float rate = findClosestRate(inputDate);
-            
             displayConversion(inputDate, value, rate);
         }
         catch(const std::exception& e)
@@ -102,9 +94,7 @@ float BitcoinExchange::findClosestRate(const Date &inputDate) const
 {
     std::map<Date, float>::const_iterator it = _exchangeRates.find(inputDate);
     if (it != _exchangeRates.end())
-    {
         return (it->second);
-    }
     std::map<Date, float>::const_iterator upper = _exchangeRates.upper_bound(inputDate);
     if (upper == _exchangeRates.begin())
     {
@@ -112,7 +102,6 @@ float BitcoinExchange::findClosestRate(const Date &inputDate) const
         oss << "No available rate for date: " << inputDate;
         throw (std::runtime_error(oss.str())); 
     }
-        
     --upper;
     return (upper->second);
 }
@@ -180,19 +169,13 @@ void BitcoinExchange::loadExchangeRates(const std::string &fileName)
     }
     
     std::string line;
-    bool isFirstLine = true;
     
     while (std::getline(dataFile, line))
     {
         if (line.empty())
             continue;
-            
-        if (isFirstLine && line == "date,exchange_rate")
-        {
-            isFirstLine = false;
+        if (line == "date,exchange_rate")
             continue;
-        }
-        
         try
         {
             processExchangeRateLine(line);
@@ -203,8 +186,7 @@ void BitcoinExchange::loadExchangeRates(const std::string &fileName)
         }
     }
     if (_exchangeRates.empty())
-        throw std::runtime_error("Error: no valid exchange rates found in file");
-        
+        throw (std::runtime_error("Error: no valid exchange rates found in file"));
     dataFile.close();
 }
 
